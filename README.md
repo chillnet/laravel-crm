@@ -93,6 +93,12 @@ php artisan route:clear
 php artisan serve
 ```
 
+##### On local using [Laravel Sail](https://laravel.com/docs/10.x/sail#installing-sail-into-existing-applications)
+
+```
+sail up -d
+sail artisan krayin-crm:install
+```
 
 **How to log in as admin:**
 
@@ -105,7 +111,7 @@ password:admin123
 
 ### License
 
-Krayin CRM is a truly opensource CRM framework which will always be free under the [MIT License](https://github.com/krayin/laravel-crm/blob/master/LICENSE).
+Krayin CRM is a truly open-source CRM framework that will always be free under the [MIT License](https://github.com/krayin/laravel-crm/blob/master/LICENSE).
 
 ### Security Vulnerabilities
 
