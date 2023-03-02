@@ -1,8 +1,6 @@
 @component('admin::emails.layouts.master')
     <div style="text-align: center;">
-        <a href="{{ config('app.url') }}">
-            <img src="{{ asset('vendor/webkul/admin/assets/images/logo.svg') }}" alt="{{ config('app.name') }}"/>
-        </a>
+        @include('layout.logo')
     </div>
 
     <div style="padding: 30px;">
