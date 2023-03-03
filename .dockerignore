@@ -1,0 +1,51 @@
+# ignore 3rd party dependancies and build, env files
+node_modules
+vendor
+.env*
+.idea
+.run
+nohup.out
+.psysh.php
+docker
+Dockerfile*
+*docker-compose*
+bitbucket-pipelines.yml
+stubs
+# ignore .git and .cache folders
+.git*
+.cache
+# ignore Mac specific folders and files
+.DS_Store
+.thumbsdb
+# ignore editor configs
+.editorconfig
+.styleci.yml
+.dockerignore
+.vscode
+# ignore storage and tmp files
+storage/app/public/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+storage/medialibrary/temp/*
+storage/tmp/uploads/*
+storage/images/*
+storage/logs/*
+storage/tmp/uploads/*
+storage/uploads/*
+tmp*
+# ignore all markdown files (md) beside all README*.md other than README-secret.md
+*.md
+!README*.md
+README-secret.md
+**/*/phpinfo.php
+copy_latest_backup.sh
+get_release_notes.sh
+.mysql
+auth.json
+/.php-cs-fixer.cache
+/.php-cs-fixer.php
+.devcontainer
+build-dockerhub.sh
+*.sql.gz
