@@ -1,0 +1,71 @@
+version: '3'
+services:
+  webapp:
+    image: "chillnet/laravel-crm:${APP_VERSION}"
+    container_name: crm-app
+    restart: 'always'
+    ports:
+      - "8080:80"
+    env_file:
+      - ./.env
+      - ./.laravel-app.env
+    environment:
+     DB_HOST: mariadb
+     VIRTUAL_HOST: crm.chillnet.capetown
+     LETSENCRYPT_HOST: crm.chillnet.capetown
+     LETSENCRYPT_EMAIL: conrad@vanstra.net
+     VIRTUAL_PORT: 80
+    volumes:
+      - ${STORAGE_PATH-./storage}:/var/www/html/storage
+      - ${PUBLIC_MEDIA_STORAGE_PATH-./storage/public/media}:/var/www/html/public/media
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - proxy
+      - backend
+  mariadb:
+    image: 'mariadb:latest'
+    container_name: 'crm-app-db'
+    ports:
+        - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD:-Y4JWxN7fEKZ9vR3Fb4je}'
+        MYSQL_ROOT_HOST: "%"
+        MYSQL_DATABASE: '${DB_DATABASE:-crm_app}'
+        MYSQL_USER: '${DB_USERNAME}'
+        MYSQL_PASSWORD: '${DB_PASSWORD}'
+        DB_HOST: mariadb
+    volumes:
+        - 'crm-app-db:/var/lib/mysql'
+    healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+        retries: 3
+        timeout: 5s
+    networks:
+      - backend
+  redis:
+    container_name: 'crm-app-redis'
+    image: redis:latest
+    ports:
+      - "127.0.0.1:${HOST_MACHINE_REDIS_PORT-6320}:6379"
+    restart: 'always'
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: ["sh", "-c", "redis-server --requirepass \"${REDIS_PASSWORD}\""]
+    volumes:
+      - 'crm-app-redis:/data'
+    networks:
+      - backend
+volumes:
+    crm-app-db:
+      driver: local
+    crm-app-redis:
+      driver: local
+networks:
+  default:
+    name: proxy
+    external: true
+  backend:
+    name: laravel-backend
+    external: false
